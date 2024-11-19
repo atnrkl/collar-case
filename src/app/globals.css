@@ -2,20 +2,29 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+.clip-rounded-triangle {
+  clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
 }
 
-@media (prefers-color-scheme: dark) {
+.triangle {
+  --r: 6px;
+
+  aspect-ratio: 1;
+  border-bottom-right-radius: var(--r);
+  clip-path: polygon(100% 0, 0 100%, 100% 100%);
+  --_g: calc(50% * (1 + 1 / tan(22.5deg)) - var(--r) / (3 * sqrt(2) - 4));
+  --_r: calc(var(--r) / tan(22.5deg)), #000 98%, #0000 101%;
+  -webkit-mask: radial-gradient(var(--r) at bottom var(--r) left var(--_r)),
+    radial-gradient(var(--r) at right var(--r) top var(--_r)),
+    conic-gradient(
+      from 112.5deg at calc(100% - var(--_g)) calc(100% - var(--_g)),
+      #000 45deg,
+      #0000 0
+    );
+}
+
+@layer base {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --radius: 0.5rem;
   }
-}
-
-body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
 }
